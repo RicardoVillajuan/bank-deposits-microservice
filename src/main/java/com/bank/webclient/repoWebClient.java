@@ -3,6 +3,8 @@ package com.bank.webclient;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.http.MediaType;
 import com.bank.model.Account;
+import com.bank.model.Movement;
+
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
@@ -37,5 +39,14 @@ public class repoWebClient {
 					.retrieve()
 					.bodyToMono(Account.class);
 	}
-	
+	/**
+     * Metodo para salvar el movimiento.
+     * @param movement
+     * @return
+     */
+    public Mono<Movement> saveMovement(Movement movement) {
+        return webclient.build().post()
+            .uri("http://localhost:8098/movement").contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(movement)).retrieve().bodyToMono(Movement.class); 
+    }
 }
